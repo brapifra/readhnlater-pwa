@@ -6,12 +6,15 @@ import { connect } from 'react-redux';
 
 const Container = styled.div`
   &>a{
-    &:not(:last-child)::after{
-      content: '|';
-      margin: 0 5px;
+    &:not(:last-child){
+      border-right: 2px solid white;
+      margin-right: 10px;
+      padding-right: 10px;
     };
-    font-weight: bold;
-    color: #ff6600;
+    &:first-child{
+      font-weight: bold;
+    }
+    color: white;
     text-decoration:none;
     outline: none;
   }
@@ -19,8 +22,8 @@ const Container = styled.div`
     display: inline-block;
   }
   width: 100%;
-  border: 2px solid #ff6600;
-  padding: 2px;
+  background: #ff6600;
+  padding: 5px;
   box-sizing: border-box;
   @media only screen and (min-width : 300px) and (max-width : 750px) {
     border-right: 0;
@@ -35,7 +38,7 @@ class Header extends React.Component<{ loading: boolean }> {
         <Link to="/">ReadHNLater</Link>
         <Link to="/newest">new</Link>
         <Link to="/saved">saved</Link>
-        {this.props.loading ? <span><CircleLoader color="#ff6600" size={10} /></span> : null}
+        {this.props.loading ? <span><CircleLoader color="white" size={13} /></span> : null}
       </Container>
     );
   }
