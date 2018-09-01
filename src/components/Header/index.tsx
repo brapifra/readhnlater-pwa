@@ -1,14 +1,17 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
-  &>span{
+  &>a{
     &:not(:last-child)::after{
       content: '|';
       margin: 0 5px;
     };
     font-weight: bold;
     color: #ff6600;
+    text-decoration:none;
+    outline: none;
   }
   width: 100%;
   border: 2px solid #ff6600;
@@ -24,8 +27,8 @@ export default class Header extends React.Component {
   public render() {
     return (
       <Container>
-        <span>ReadHNLater PWA</span>
-        <span>new</span>
+        <Link to="/">ReadHNLater PWA</Link>
+        <Link to="/saved">saved</Link>
       </Container>
     );
   }

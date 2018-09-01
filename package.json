@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@redux-offline/redux-offline": "^2.4.0",
+    "@types/react-router-dom": "^4.3.0",
     "firebase": "^5.4.2",
     "immutable": "^3.8.2",
     "normalize.css": "^8.0.0",
@@ -11,6 +12,7 @@
     "react-dom": "^16.4.2",
     "react-icons": "^3.0.5",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
     "react-scripts-ts": "2.17.0",
     "react-spinners": "^0.4.5",
     "redux": "^4.0.0",
