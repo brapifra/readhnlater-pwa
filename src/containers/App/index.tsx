@@ -1,5 +1,5 @@
 import * as React from 'react';
-import firebase from '../../utils/firebase';
+import APIClient from '../../utils/APIClient';
 import Header from '../../components/Header';
 import styled from 'styled-components';
 import ListItem from '../../components/ListItem';
@@ -24,17 +24,16 @@ class App extends React.Component<{}, State> {
   }
   private itemsData: Map<number, ItemProperties> = new Map();
   public componentDidMount() {
-    firebase.database().ref('/v0/topstories').limitToFirst(30).on('value', async (snapshot) => {
-      if (!snapshot) {
-        return;
-      }
-      const items = snapshot.val();
+    const client = APIClient.getInstance();
+    client.subscribeToTopStories(async (snapshot) => {
+      const items = snapshot.val() || [];
+      console.log(items);
       try {
         for (const id of items) {
           if (this.itemsData.has(id)) {
             continue;
           }
-          const item = await firebase.database().ref(`/v0/item/${id}`).once('value');
+          const item = await client.getItem(id);
           this.itemsData.set(id, item.val());
         }
         this.setState({ items });

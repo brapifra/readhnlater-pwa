@@ -7,6 +7,10 @@ const Container = styled.div`
   background: #f6f6ef;
   color: #828282;
   box-sizing: border-box;
+  min-height: calc(100vh - 41px);
+  @media only screen and (min-width : 300px) and (max-width : 750px) {
+    min-height: calc(100vh - 27px);
+  }
 `;
 
 const ItemRow = styled.tr`
