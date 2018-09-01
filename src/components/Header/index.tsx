@@ -13,6 +13,7 @@ const Container = styled.div`
   width: 100%;
   border: 2px solid #ff6600;
   padding: 2px;
+  box-sizing: border-box;
 `;
 
 export default class Header extends React.Component {

@@ -8,6 +8,10 @@ import Item, { ItemProperties } from '../../components/Item';
 const Container = styled.div`
   width: 85%;
   margin: 5px auto;
+  @media only screen and (min-width : 300px) and (max-width : 750px) {
+    width: 100%;
+    margin: 0px auto;
+  }
 `;
 
 interface State {

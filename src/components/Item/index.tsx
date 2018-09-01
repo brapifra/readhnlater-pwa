@@ -15,6 +15,9 @@ const Container = styled.div`
     outline: none;
     color: black;
   }
+  @media only screen and (min-width : 300px) and (max-width : 750px) {
+    font-size: 11pt;
+  }
 `;
 
 const Title = styled.a`
@@ -31,6 +34,9 @@ const Domain = styled.span`
 const AdditionalInfo = styled.div`
     line-height: 7pt;
     &>*{
+      @media only screen and (min-width : 300px) and (max-width : 750px) {
+        font-size: 9pt;
+      }
       font-size: 7pt;
     }
     &>*:not(:last-child)::after{
@@ -39,6 +45,9 @@ const AdditionalInfo = styled.div`
     };
     & a {
       color: #828282;
+    }
+    @media only screen and (min-width : 300px) and (max-width : 750px) {
+      line-height: 9pt;
     }
 `;
 

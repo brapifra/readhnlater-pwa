@@ -6,6 +6,7 @@ const Container = styled.div`
   padding: 10px 4px;
   background: #f6f6ef;
   color: #828282;
+  box-sizing: border-box;
 `;
 
 const ItemRow = styled.tr`
