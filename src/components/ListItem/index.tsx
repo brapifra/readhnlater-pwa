@@ -34,7 +34,7 @@ export default class ListItem extends React.Component<Props> {
           <tbody>
             {this.props.children.map((e: React.ReactNode, i: number) => (
               <ItemRow key={i}>
-                <td>{i}.</td>
+                <td>{i + 1}.</td>
                 <td>{e}</td>
               </ItemRow>
             ))}

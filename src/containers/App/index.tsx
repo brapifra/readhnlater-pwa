@@ -11,25 +11,29 @@ const Container = styled.div`
 `;
 
 interface State {
-  listItemData: ItemProperties[];
+  items: number[];
 }
 
 class App extends React.Component<{}, State> {
   public state: State = {
-    listItemData: []
+    items: []
   }
+  private itemsData: Map<number, ItemProperties> = new Map();
   public componentDidMount() {
     firebase.database().ref('/v0/topstories').limitToFirst(30).on('value', async (snapshot) => {
       if (!snapshot) {
         return;
       }
+      const items = snapshot.val();
       try {
-        const listItemData = [];
-        for (const id of snapshot.val()) {
+        for (const id of items) {
+          if (this.itemsData.has(id)) {
+            continue;
+          }
           const item = await firebase.database().ref(`/v0/item/${id}`).once('value');
-          listItemData.push(item.val());
+          this.itemsData.set(id, item.val());
         }
-        this.setState({ listItemData });
+        this.setState({ items });
       } catch (e) {
         console.error(e);
       }
@@ -40,9 +44,13 @@ class App extends React.Component<{}, State> {
       <Container>
         <Header />
         <ListItem>
-          {this.state.listItemData.map((e: ItemProperties, i: number) => (
-            <Item {...e} key={i} />
-          ))}
+          {this.state.items.map((id: number, i: number) => {
+            const item = this.itemsData.get(id);
+            if (!item) {
+              return null;
+            }
+            return <Item {...item} key={i} />
+          })}
         </ListItem>
       </Container>
     );
