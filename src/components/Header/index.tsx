@@ -24,7 +24,7 @@ export default class Header extends React.Component {
   public render() {
     return (
       <Container>
-        <span>HN RIL PWA</span>
+        <span>ReadHNLater PWA</span>
         <span>new</span>
       </Container>
     );
