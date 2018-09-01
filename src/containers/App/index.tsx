@@ -2,6 +2,7 @@ import * as React from 'react';
 import firebase from '../../utils/firebase';
 import Header from '../../components/Header';
 import styled from 'styled-components';
+import ListItem from '../../components/ListItem';
 
 const Container = styled.div`
   width: 85%;
@@ -21,6 +22,7 @@ class App extends React.Component {
     return (
       <Container>
         <Header />
+        <ListItem><span>ddd</span></ListItem>
       </Container>
     );
   }
