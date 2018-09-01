@@ -10,6 +10,7 @@ class APIClient {
     return (APIClient.instance || (APIClient.instance = new this()));
   }
   private static instance: APIClient;
+  private listenerRef: firebase.database.Query | null;
 
   constructor() {
     if (APIClient.instance) {
@@ -25,16 +26,42 @@ class APIClient {
     limit: number = 30,
     offset: number = 0
   ) {
-    firebase.database().ref('/v0/topstories').limitToFirst(limit).on('value', (snapshot) => {
+    this.subscribeTo('/v0/topstories', cb, limit, offset);
+  }
+
+  public subscribeToNewStories(
+    cb: (snapshot: firebase.database.DataSnapshot) => void,
+    limit: number = 30,
+    offset: number = 0
+  ) {
+    this.subscribeTo('/v0/newstories', cb, limit, offset);
+  }
+
+  public getItem(id: number) {
+    return firebase.database().ref(`/v0/item/${id}`).once('value');
+  }
+
+  public removeListener() {
+    if (this.listenerRef) {
+      this.listenerRef.off();
+    }
+    this.listenerRef = null;
+  }
+
+  private subscribeTo(
+    path: string,
+    cb: (snapshot: firebase.database.DataSnapshot) => void,
+    limit: number = 30,
+    offset: number = 0
+  ) {
+    this.removeListener();
+    this.listenerRef = firebase.database().ref(path).limitToFirst(limit);
+    this.listenerRef.on('value', (snapshot) => {
       if (!snapshot) {
         return;
       }
       cb(snapshot);
     });
-  }
-
-  public getItem(id: number) {
-    return firebase.database().ref(`/v0/item/${id}`).once('value');
   }
 }
 

@@ -7,7 +7,8 @@ export enum Actions {
   UNSAVE_ITEM = "UNSAVE_ITEM",
   ADD_ITEM = "ADD_ITEM",
   DELETE_ITEM = "DELETE_ITEM",
-  SET_SELECTED_ITEMS = "SET_SELECTED_ITEMS"
+  SET_SELECTED_ITEMS = "SET_SELECTED_ITEMS",
+  SET_LOADING = "SET_LOADING"
 }
 
 interface Action {
@@ -27,6 +28,9 @@ function SavedItemsReducer(state = OrderedMap<string, ItemProperties>(), action:
 }
 
 function ItemsReducer(state = OrderedMap<string, ItemProperties>(), action: Action): OrderedMap<string, ItemProperties> {
+  if (!action.payload) {
+    return state;
+  }
   switch (action.type) {
     case Actions.ADD_ITEM:
       return state.set(action.payload.id.toString(), action.payload)
@@ -46,4 +50,13 @@ function SelectedReducer(state: string[] = [], action: Action): string[] {
   }
 }
 
-export default combineReducers({ saved: SavedItemsReducer, items: ItemsReducer, selected: SelectedReducer });
+function LoadingReducer(state: boolean = true, action: Action): boolean {
+  switch (action.type) {
+    case Actions.SET_LOADING:
+      return action.payload
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({ saved: SavedItemsReducer, items: ItemsReducer, selected: SelectedReducer, loading: LoadingReducer });

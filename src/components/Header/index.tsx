@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { CircleLoader } from 'react-spinners';
+import { connect } from 'react-redux';
 
 const Container = styled.div`
   &>a{
@@ -13,6 +15,9 @@ const Container = styled.div`
     text-decoration:none;
     outline: none;
   }
+  &>*{
+    display: inline-block;
+  }
   width: 100%;
   border: 2px solid #ff6600;
   padding: 2px;
@@ -23,13 +28,24 @@ const Container = styled.div`
   }
 `;
 
-export default class Header extends React.Component {
+class Header extends React.Component<{ loading: boolean }> {
   public render() {
     return (
       <Container>
-        <Link to="/">ReadHNLater PWA</Link>
+        <Link to="/">ReadHNLater</Link>
+        <Link to="/newest">new</Link>
         <Link to="/saved">saved</Link>
+        {this.props.loading ? <span><CircleLoader color="#ff6600" size={10} /></span> : null}
       </Container>
     );
   }
 }
+
+
+const mapStateToProps = (state: any) => {
+  return {
+    loading: state.loading,
+  };
+};
+
+export default connect(mapStateToProps)(Header);
