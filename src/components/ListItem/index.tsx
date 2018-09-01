@@ -1,6 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { IoMdBookmark } from 'react-icons/io';
 import LoadingComponent from '../LoadingComponent';
+import OfflineClient from '../../utils/OfflineClient';
+import { ItemProperties } from '../Item';
 
 const Container = styled.div`
   width: 100%;
@@ -19,11 +22,14 @@ const ItemRow = styled.tr`
     font-size: 10pt;
     &:first-child{
       text-align: right;
-      padding-right: 4px;
       vertical-align: top;
     }
   }
-  &:not(:last-child)>td:nth-child(2){
+  &>td:nth-child(2){
+    vertical-align: top;
+    cursor: pointer;
+  }
+  &:not(:last-child)>td:nth-child(3){
     padding-bottom: 5px;
   }
 `;
@@ -33,8 +39,16 @@ interface Props {
   loading?: boolean;
 }
 
-export default class ListItem extends React.Component<Props> {
+interface State {
+  savedItems: Map<number, ItemProperties>;
+}
+
+export default class ListItem extends React.Component<Props, State> {
+  public state: State = {
+    savedItems: OfflineClient.getSavedItems()
+  };
   public render() {
+    const { savedItems } = this.state;
     return (
       <Container
         style={{
@@ -44,9 +58,16 @@ export default class ListItem extends React.Component<Props> {
         <LoadingComponent loading={this.props.loading}>
           <table>
             <tbody>
-              {this.props.children.map((e: React.ReactNode, i: number) => (
+              {this.props.children.map((e: React.ReactElement<any>, i: number) => (
                 <ItemRow key={i}>
                   <td>{i + 1}.</td>
+                  <td>
+                    <IoMdBookmark
+                      size={15}
+                      color={savedItems.has(e.props.id) ? '#ff6600' : '#828282'}
+                      onClick={this.saveOrDeleteItem(e.props, this)}
+                    />
+                  </td>
                   <td>{e}</td>
                 </ItemRow>
               ))}
@@ -55,5 +76,16 @@ export default class ListItem extends React.Component<Props> {
         </LoadingComponent>
       </Container>
     );
+  }
+
+  private saveOrDeleteItem = (item: ItemProperties, ref: any) => () => {
+    const { savedItems } = this.state;
+    if (savedItems.has(item.id)) {
+      savedItems.delete(item.id);
+    } else {
+      savedItems.set(item.id, item);
+    }
+    OfflineClient.setSavedItems(savedItems);
+    this.setState({ savedItems });
   }
 }
