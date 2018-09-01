@@ -4,6 +4,11 @@ import Header from '../../components/Header';
 import styled from 'styled-components';
 import ListItem from '../../components/ListItem';
 import Item, { ItemProperties } from '../../components/Item';
+import { OrderedMap } from 'immutable';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { Actions } from '../../redux/Items';
+import SavedItems from '../SavedItems';
 
 const Container = styled.div`
   width: 85%;
@@ -14,49 +19,62 @@ const Container = styled.div`
   }
 `;
 
-interface State {
-  items: number[];
+interface Props {
+  selectedItems: string[];
+  items: OrderedMap<string, ItemProperties>;
+  addStory: (s: ItemProperties) => void;
+  setSelectedItems: (list: string[]) => void;
 }
 
-class App extends React.Component<{}, State> {
-  public state: State = {
-    items: [],
-  }
-  private itemsData: Map<number, ItemProperties> = new Map();
+class App extends React.Component<Props> {
   public componentDidMount() {
     const client = APIClient.getInstance();
     client.subscribeToTopStories(async (snapshot) => {
-      const items = snapshot.val() || [];
+      const items = snapshot.val().map((e: number) => e.toString()) || [];
       try {
         for (const id of items) {
-          if (this.itemsData.has(id)) {
+          if (this.props.items.has(id)) {
             continue;
           }
           const item = await client.getItem(id);
-          this.itemsData.set(id, item.val());
+          this.props.addStory(item.val());
         }
-        this.setState({ items });
+        this.props.setSelectedItems(items);
       } catch (e) {
         console.error(e);
       }
     });
   }
   public render() {
+    const { items, selectedItems } = this.props;
     return (
       <Container>
         <Header />
-        <ListItem loading={this.state.items.length === 0}>
-          {this.state.items.map((id: number, i: number) => {
-            const item = this.itemsData.get(id);
-            if (!item) {
-              return null;
+        <ListItem loading={selectedItems.length === 0}>
+          {selectedItems.map((id: string, i: number) => {
+            if (!items.has(id)) {
+              return;
             }
-            return <Item {...item} key={i} />
+            return <Item {...items.get(id)} key={i} />
           })}
         </ListItem>
+        <SavedItems />
       </Container>
     );
   }
 }
 
-export default App;
+
+const mapStateToProps = (state: any) => {
+  return {
+    selectedItems: state.selected,
+    items: state.items,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  addStory: (payload: ItemProperties) => dispatch({ type: Actions.ADD_ITEM, payload }),
+  setSelectedItems: (payload: string[]) => dispatch({ type: Actions.SET_SELECTED_ITEMS, payload })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

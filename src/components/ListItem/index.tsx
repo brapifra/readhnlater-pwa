@@ -2,8 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IoMdBookmark } from 'react-icons/io';
 import LoadingComponent from '../LoadingComponent';
-import OfflineClient from '../../utils/OfflineClient';
 import { ItemProperties } from '../Item';
+import { Dispatch } from 'redux';
+import { Actions } from '../../redux/Items';
+import { OrderedMap } from 'immutable';
+import { connect } from 'react-redux';
 
 const Container = styled.div`
   width: 100%;
@@ -37,18 +40,14 @@ const ItemRow = styled.tr`
 interface Props {
   children: React.ReactNode[];
   loading?: boolean;
+  savedItems: OrderedMap<string, ItemProperties>;
+  saveItem: (payload: ItemProperties) => void;
+  unSaveItem: (payload: ItemProperties) => void;
 }
 
-interface State {
-  savedItems: Map<number, ItemProperties>;
-}
-
-export default class ListItem extends React.Component<Props, State> {
-  public state: State = {
-    savedItems: OfflineClient.getSavedItems()
-  };
+class ListItem extends React.Component<Props> {
   public render() {
-    const { savedItems } = this.state;
+    const { savedItems } = this.props;
     return (
       <Container
         style={{
@@ -64,8 +63,8 @@ export default class ListItem extends React.Component<Props, State> {
                   <td>
                     <IoMdBookmark
                       size={15}
-                      color={savedItems.has(e.props.id) ? '#ff6600' : '#828282'}
-                      onClick={this.saveOrDeleteItem(e.props, this)}
+                      color={savedItems.has(e.props.id.toString()) ? '#ff6600' : '#828282'}
+                      onClick={this.saveOrDeleteItem(e.props)}
                     />
                   </td>
                   <td>{e}</td>
@@ -78,14 +77,25 @@ export default class ListItem extends React.Component<Props, State> {
     );
   }
 
-  private saveOrDeleteItem = (item: ItemProperties, ref: any) => () => {
-    const { savedItems } = this.state;
-    if (savedItems.has(item.id)) {
-      savedItems.delete(item.id);
+  private saveOrDeleteItem = (item: ItemProperties) => () => {
+    const { savedItems } = this.props;
+    if (savedItems.has(item.id.toString())) {
+      this.props.unSaveItem(item);
     } else {
-      savedItems.set(item.id, item);
+      this.props.saveItem(item);
     }
-    OfflineClient.setSavedItems(savedItems);
-    this.setState({ savedItems });
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    savedItems: state.saved,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  saveItem: (payload: ItemProperties) => dispatch({ type: Actions.SAVE_ITEM, payload }),
+  unSaveItem: (payload: ItemProperties) => dispatch({ type: Actions.UNSAVE_ITEM, payload })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListItem);
