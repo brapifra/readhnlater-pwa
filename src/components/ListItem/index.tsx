@@ -2,26 +2,44 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  &>*{
-    &:not(:last-child){
-      margin-bottom: 5px;
-    }
-    margin-left: 3px;
-  }
   width: 100%;
   padding: 10px 4px;
   background: #f6f6ef;
+  color: #828282;
+`;
+
+const ItemRow = styled.tr`
+  &>td{
+    font-size: 10pt;
+    &:first-child{
+      text-align: right;
+      padding-right: 4px;
+      vertical-align: top;
+    }
+  }
+  &:not(:last-child)>td:nth-child(2){
+    padding-bottom: 5px;
+  }
 `;
 
 interface Props {
-  children: React.ReactNode[] | React.ReactNode;
+  children: React.ReactNode[];
 }
 
 export default class ListItem extends React.Component<Props> {
   public render() {
     return (
       <Container>
-        {this.props.children}
+        <table>
+          <tbody>
+            {this.props.children.map((e: React.ReactNode, i: number) => (
+              <ItemRow key={i}>
+                <td>{i}.</td>
+                <td>{e}</td>
+              </ItemRow>
+            ))}
+          </tbody>
+        </table>
       </Container>
     );
   }
