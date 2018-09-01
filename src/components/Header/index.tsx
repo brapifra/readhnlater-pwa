@@ -14,6 +14,10 @@ const Container = styled.div`
   border: 2px solid #ff6600;
   padding: 2px;
   box-sizing: border-box;
+  @media only screen and (min-width : 300px) and (max-width : 750px) {
+    border-right: 0;
+    border-left: 0;
+  }
 `;
 
 export default class Header extends React.Component {
