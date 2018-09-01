@@ -9,7 +9,6 @@ const Container = styled.div`
   color: #828282;
   box-sizing: border-box;
   min-height: calc(100vh - 41px);
-  height: calc(100vh - 41px);
   @media only screen and (min-width : 300px) and (max-width : 750px) {
     min-height: calc(100vh - 27px);
   }
@@ -37,7 +36,11 @@ interface Props {
 export default class ListItem extends React.Component<Props> {
   public render() {
     return (
-      <Container>
+      <Container
+        style={{
+          height: this.props.children.length === 0 ? "calc(100vh - 41px)" : "100%"
+        }}
+      >
         <LoadingComponent loading={this.props.loading}>
           <table>
             <tbody>
