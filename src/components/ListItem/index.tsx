@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import LoadingComponent from '../LoadingComponent';
 
 const Container = styled.div`
   width: 100%;
@@ -8,6 +9,7 @@ const Container = styled.div`
   color: #828282;
   box-sizing: border-box;
   min-height: calc(100vh - 41px);
+  height: calc(100vh - 41px);
   @media only screen and (min-width : 300px) and (max-width : 750px) {
     min-height: calc(100vh - 27px);
   }
@@ -29,22 +31,25 @@ const ItemRow = styled.tr`
 
 interface Props {
   children: React.ReactNode[];
+  loading?: boolean;
 }
 
 export default class ListItem extends React.Component<Props> {
   public render() {
     return (
       <Container>
-        <table>
-          <tbody>
-            {this.props.children.map((e: React.ReactNode, i: number) => (
-              <ItemRow key={i}>
-                <td>{i + 1}.</td>
-                <td>{e}</td>
-              </ItemRow>
-            ))}
-          </tbody>
-        </table>
+        <LoadingComponent loading={this.props.loading}>
+          <table>
+            <tbody>
+              {this.props.children.map((e: React.ReactNode, i: number) => (
+                <ItemRow key={i}>
+                  <td>{i + 1}.</td>
+                  <td>{e}</td>
+                </ItemRow>
+              ))}
+            </tbody>
+          </table>
+        </LoadingComponent>
       </Container>
     );
   }

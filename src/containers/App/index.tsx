@@ -20,14 +20,13 @@ interface State {
 
 class App extends React.Component<{}, State> {
   public state: State = {
-    items: []
+    items: [],
   }
   private itemsData: Map<number, ItemProperties> = new Map();
   public componentDidMount() {
     const client = APIClient.getInstance();
     client.subscribeToTopStories(async (snapshot) => {
       const items = snapshot.val() || [];
-      console.log(items);
       try {
         for (const id of items) {
           if (this.itemsData.has(id)) {
@@ -46,7 +45,7 @@ class App extends React.Component<{}, State> {
     return (
       <Container>
         <Header />
-        <ListItem>
+        <ListItem loading={this.state.items.length === 0}>
           {this.state.items.map((id: number, i: number) => {
             const item = this.itemsData.get(id);
             if (!item) {
