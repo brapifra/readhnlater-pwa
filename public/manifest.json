@@ -8,7 +8,7 @@
       "type": "image/jpeg"
     }
   ],
-  "start_url": "/",
+  "start_url": "/readhnlater-pwa",
   "display": "standalone",
   "theme_color": "#ff6600",
   "background_color": "#ffffff"
