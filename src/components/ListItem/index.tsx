@@ -55,22 +55,28 @@ class ListItem extends React.Component<Props> {
         }}
       >
         <LoadingComponent loading={this.props.loading}>
-          <table>
-            <tbody>
-              {this.props.children.map((e: React.ReactElement<any>, i: number) => (
-                <ItemRow key={i}>
-                  <td>{i + 1}.</td>
-                  <td onClick={this.saveOrDeleteItem(e.props)}>
-                    <IoMdBookmark
-                      size={15}
-                      color={savedItems.has(e.props.id.toString()) ? '#ff6600' : '#828282'}
-                    />
-                  </td>
-                  <td>{e}</td>
-                </ItemRow>
-              ))}
-            </tbody>
-          </table>
+          {this.props.children.length === 0 ?
+            <div style={{ width: '100%', textAlign: 'center' }}>
+              Nothing to show here :(
+            </div>
+            :
+            <table>
+              <tbody>
+                {this.props.children.map((e: React.ReactElement<any>, i: number) => (
+                  <ItemRow key={i}>
+                    <td>{i + 1}.</td>
+                    <td onClick={this.saveOrDeleteItem(e.props)}>
+                      <IoMdBookmark
+                        size={15}
+                        color={savedItems.has(e.props.id.toString()) ? '#ff6600' : '#828282'}
+                      />
+                    </td>
+                    <td>{e}</td>
+                  </ItemRow>
+                ))}
+              </tbody>
+            </table>
+          }
         </LoadingComponent>
       </Container>
     );
