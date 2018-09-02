@@ -35,12 +35,28 @@ export default class App extends React.Component {
             path="/newest"
             component={this.realTimeRoute("newest")}
           />
+          <Route
+            path="/show"
+            component={this.realTimeRoute("show")}
+          />
+          <Route
+            path="/ask"
+            component={this.realTimeRoute("ask")}
+          />
+          <Route
+            path="/jobs"
+            component={this.realTimeRoute("jobs")}
+          />
+          <Route
+            path="/best"
+            component={this.realTimeRoute("best")}
+          />
         </Container >
       </Router >
     );
   }
 
-  private realTimeRoute = (subscribeTo?: "newest") => () => (
+  private realTimeRoute = (subscribeTo?: "newest" | "show" | "ask" | "jobs" | "best") => () => (
     <RealTimeList subscribeTo={subscribeTo} />
   );
 

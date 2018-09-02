@@ -37,6 +37,38 @@ class APIClient {
     this.subscribeTo('/v0/newstories', cb, limit, offset);
   }
 
+  public subscribeToShowStories(
+    cb: (snapshot: firebase.database.DataSnapshot) => void,
+    limit: number = 30,
+    offset: number = 0
+  ) {
+    this.subscribeTo('/v0/showstories', cb, limit, offset);
+  }
+
+  public subscribeToAskStories(
+    cb: (snapshot: firebase.database.DataSnapshot) => void,
+    limit: number = 30,
+    offset: number = 0
+  ) {
+    this.subscribeTo('/v0/askstories', cb, limit, offset);
+  }
+
+  public subscribeToJobStories(
+    cb: (snapshot: firebase.database.DataSnapshot) => void,
+    limit: number = 30,
+    offset: number = 0
+  ) {
+    this.subscribeTo('/v0/jobstories', cb, limit, offset);
+  }
+
+  public subscribeToBestStories(
+    cb: (snapshot: firebase.database.DataSnapshot) => void,
+    limit: number = 30,
+    offset: number = 0
+  ) {
+    this.subscribeTo('/v0/beststories', cb, limit, offset);
+  }
+
   public getItem(id: number) {
     return firebase.database().ref(`/v0/item/${id}`).once('value');
   }

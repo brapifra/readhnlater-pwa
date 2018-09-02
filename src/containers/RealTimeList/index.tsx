@@ -8,7 +8,7 @@ import Item, { ItemProperties } from '../../components/Item';
 import { Actions } from '../../redux/Items';
 
 interface Props {
-  subscribeTo?: 'newest';
+  subscribeTo?: 'newest' | 'show' | 'ask' | 'jobs' | 'best';
   selectedItems: string[];
   items: OrderedMap<string, ItemProperties>;
   addItem: (s: ItemProperties) => void;
@@ -22,6 +22,18 @@ class RealTimeList extends React.Component<Props> {
     switch (this.props.subscribeTo) {
       case 'newest':
         APIClient.getInstance().subscribeToNewStories(this.onNewData);
+        break;
+      case 'show':
+        APIClient.getInstance().subscribeToShowStories(this.onNewData);
+        break;
+      case 'ask':
+        APIClient.getInstance().subscribeToAskStories(this.onNewData);
+        break;
+      case 'jobs':
+        APIClient.getInstance().subscribeToJobStories(this.onNewData);
+        break;
+      case 'best':
+        APIClient.getInstance().subscribeToBestStories(this.onNewData);
         break;
       default:
         APIClient.getInstance().subscribeToTopStories(this.onNewData);

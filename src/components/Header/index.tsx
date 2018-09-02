@@ -37,6 +37,10 @@ class Header extends React.Component<{ loading: boolean }> {
       <Container>
         <Link to="/">ReadHNLater</Link>
         <Link to="/newest">new</Link>
+        <Link to="/show">show</Link>
+        <Link to="/ask">ask</Link>
+        <Link to="/jobs">jobs</Link>
+        <Link to="/best">best</Link>
         <Link to="/saved">saved</Link>
         {this.props.loading ? <span><ClipLoader color="white" size={13} /></span> : null}
       </Container>
