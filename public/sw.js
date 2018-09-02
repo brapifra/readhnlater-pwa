@@ -3,7 +3,8 @@
 const CACHE_NAME = 'ReadHNLater-cache-v1';
 const urlsToCache = [
   '/',
-  '/static/js/bundle.js'
+  '/static/js/bundle.js',
+  '/icon.jpg'
 ];
 
 self.addEventListener('install', function (event) {
