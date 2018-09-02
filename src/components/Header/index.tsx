@@ -11,8 +11,10 @@ const Container = styled.div`
       margin-right: 10px;
       padding-right: 10px;
     };
-    &:first-child{
+    &>h1{
       font-weight: bold;
+      font-size: 12pt;
+      margin: 0;
     }
     color: white;
     text-decoration:none;
@@ -35,7 +37,7 @@ class Header extends React.Component<{ loading: boolean }> {
   public render() {
     return (
       <Container>
-        <Link to="/">ReadHNLater</Link>
+        <Link to="/"><h1>ReadHNLater</h1></Link>
         <Link to="/newest">new</Link>
         <Link to="/show">show</Link>
         <Link to="/ask">ask</Link>
