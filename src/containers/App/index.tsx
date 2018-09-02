@@ -17,8 +17,12 @@ const Container = styled.div`
 export default class App extends React.Component {
 
   public render() {
+    console.log();
     return (
-      <Router>
+      <Router
+        basename={process.env.NODE_ENV === 'production' ?
+          "/readhnlater-pwa" : ""}
+      >
         <Container>
           <Header />
           <Route
