@@ -30,6 +30,9 @@ const Title = styled.a`
 
 const Domain = styled.span`
     font-size: 8pt;
+    &>a{
+      color: #828282;
+    }
 `;
 
 const AdditionalInfo = styled.div`
