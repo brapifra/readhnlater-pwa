@@ -1,0 +1,15 @@
+{
+  "short_name": "ReadHNLater",
+  "name": "ReadHNLater PWA",
+  "icons": [
+    {
+      "src": "icon.jpg",
+      "sizes": "512x512 192x192 64x64 32x32 24x24 16x16",
+      "type": "image/jpeg"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ff6600",
+  "background_color": "#ffffff"
+}
