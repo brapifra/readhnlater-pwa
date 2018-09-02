@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as moment from 'moment';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -71,7 +72,7 @@ export interface ItemProperties {
 
 export default class Item extends React.Component<ItemProperties> {
   public render() {
-    const { title, url, score, by, descendants } = this.props;
+    const { title, url, score, by, descendants, time } = this.props;
     return (
       <Container>
         <Title href={url}>{title}</Title>
@@ -80,8 +81,9 @@ export default class Item extends React.Component<ItemProperties> {
           : null
         }
         <AdditionalInfo>
-          <span>{score} points by <a>{by}</a></span>
-          <a>{descendants} comments</a>
+          {score ? <span>{score} points by <a>{by}</a></span> : null}
+          {time ? <span>{moment.unix(time).fromNow()}</span> : null}
+          {descendants ? <a>{descendants} comments</a> : null}
         </AdditionalInfo>
       </Container>
     );
