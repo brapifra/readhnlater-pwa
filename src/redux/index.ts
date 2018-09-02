@@ -6,10 +6,10 @@ import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 import Items from './Items';
 import bootstrap from '..';
 
-export default createStore(
-  Items,
-  {},
-  compose(
+let middleWare: any;
+
+if (process.env.NODE_ENV !== 'production') {
+  middleWare = compose(
     applyMiddleware(logger),
     offline({
       ...offlineConfig,
@@ -19,4 +19,18 @@ export default createStore(
       persistCallback: bootstrap
     })
   )
+} else {
+  middleWare = offline({
+    ...offlineConfig,
+    persistOptions: {
+      transforms: [immutableTransform()]
+    },
+    persistCallback: bootstrap
+  });
+}
+
+export default createStore(
+  Items,
+  {},
+  middleWare
 );
