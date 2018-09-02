@@ -1,6 +1,7 @@
 {
   "name": "readhnlater-pwa",
-  "version": "0.1.0",
+  "homepage": "http://brapifra.github.io/readhnlater-pwa",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@redux-offline/redux-offline": "^2.4.0",
@@ -28,7 +29,9 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
@@ -37,6 +40,7 @@
     "@types/react-dom": "^16.0.7",
     "@types/react-redux": "^6.0.6",
     "@types/redux-logger": "^3.0.6",
+    "gh-pages": "^1.2.0",
     "redux-persist-transform-immutable": "^5.0.0",
     "typescript": "^3.0.3"
   }
