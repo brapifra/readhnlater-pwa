@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { CircleLoader } from 'react-spinners';
+import { ClipLoader } from 'react-spinners';
 import { connect } from 'react-redux';
 
 const Container = styled.div`
@@ -38,7 +38,7 @@ class Header extends React.Component<{ loading: boolean }> {
         <Link to="/">ReadHNLater</Link>
         <Link to="/newest">new</Link>
         <Link to="/saved">saved</Link>
-        {this.props.loading ? <span><CircleLoader color="white" size={13} /></span> : null}
+        {this.props.loading ? <span><ClipLoader color="white" size={13} /></span> : null}
       </Container>
     );
   }

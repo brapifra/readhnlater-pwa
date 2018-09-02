@@ -34,7 +34,7 @@ class RealTimeList extends React.Component<Props> {
       <ListItem loading={this.props.selectedItems.length === 0}>
         {this.props.selectedItems.map((id: string, i: number) => {
           if (!this.props.items.has(id)) {
-            return;
+            return <Item id={parseInt(id, 10)} key={i} />;
           }
           return <Item {...this.props.items.get(id)} key={i} />
         })}
@@ -47,11 +47,13 @@ class RealTimeList extends React.Component<Props> {
     const items = snapshot.val().map((e: number) => e.toString()) || [];
     try {
       for (const id of items) {
-        if (this.props.items.has(id)) {
+        /*if (this.props.items.has(id)) {
+
           continue;
-        }
-        const item = await APIClient.getInstance().getItem(id);
-        this.props.addItem(item.val());
+        }*/
+        APIClient.getInstance().getItem(id).then((item: any) => {
+          this.props.addItem(item.val());
+        });
       }
       this.props.setSelectedItems(items);
     } catch (e) {

@@ -60,11 +60,10 @@ class ListItem extends React.Component<Props> {
               {this.props.children.map((e: React.ReactElement<any>, i: number) => (
                 <ItemRow key={i}>
                   <td>{i + 1}.</td>
-                  <td>
+                  <td onClick={this.saveOrDeleteItem(e.props)}>
                     <IoMdBookmark
                       size={15}
                       color={savedItems.has(e.props.id.toString()) ? '#ff6600' : '#828282'}
-                      onClick={this.saveOrDeleteItem(e.props)}
                     />
                   </td>
                   <td>{e}</td>

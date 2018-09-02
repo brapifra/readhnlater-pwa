@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as moment from 'moment';
 import styled from 'styled-components';
+import { BeatLoader } from 'react-spinners';
 
 const Container = styled.div`
   font-size: 10pt;
@@ -75,6 +76,13 @@ export interface ItemProperties {
 
 export default class Item extends React.Component<ItemProperties> {
   public render() {
+    if (Object.keys(this.props).length === 1 && this.props.id) {
+      return (
+        <Container>
+          <BeatLoader color="#ff6600" size={6} />
+        </Container>
+      );
+    }
     const { title, url, score, by, descendants, time } = this.props;
     return (
       <Container>
