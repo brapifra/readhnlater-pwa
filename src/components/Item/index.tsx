@@ -74,7 +74,7 @@ export interface ItemProperties {
   descendants?: number;
 }
 
-export default class Item extends React.Component<ItemProperties> {
+export default class Item extends React.Component<ItemProperties & { swipeMode?: boolean }> {
   public render() {
     if (Object.keys(this.props).length === 1 && this.props.id) {
       return (
@@ -85,7 +85,7 @@ export default class Item extends React.Component<ItemProperties> {
     }
     const { title, url, score, by, descendants, time } = this.props;
     return (
-      <Container>
+      <Container style={{ textAlign: this.props.swipeMode ? 'center' : 'left' }}>
         <Title href={url}>{title}</Title>
         {url ?
           <Domain>(<a href={`http://${this.getUrlDomain(url)}`}>{this.getUrlDomain(url)}</a>)</Domain>

@@ -6,6 +6,7 @@ import APIClient from '../../utils/APIClient';
 import ListItem from '../../components/ListItem';
 import Item, { ItemProperties } from '../../components/Item';
 import { Actions } from '../../redux/Items';
+import SwipeableList from '../../components/SwipeableList';
 
 interface Props {
   subscribeTo?: 'newest' | 'show' | 'ask' | 'jobs' | 'best';
@@ -14,6 +15,7 @@ interface Props {
   addItem: (s: ItemProperties) => void;
   setSelectedItems: (list: string[]) => void;
   setLoading: (b: boolean) => void;
+  swipeMode: boolean;
 }
 
 class RealTimeList extends React.Component<Props> {
@@ -42,15 +44,27 @@ class RealTimeList extends React.Component<Props> {
   }
 
   public render() {
+    if (!this.props.swipeMode) {
+      return (
+        <ListItem loading={this.props.selectedItems.length === 0}>
+          {this.props.selectedItems.map((id: string, i: number) => {
+            if (!this.props.items.has(id)) {
+              return <Item id={parseInt(id, 10)} key={i} />;
+            }
+            return <Item {...this.props.items.get(id)} key={i} />
+          })}
+        </ListItem>
+      );
+    }
     return (
-      <ListItem loading={this.props.selectedItems.length === 0}>
+      <SwipeableList loading={this.props.selectedItems.length === 0}>
         {this.props.selectedItems.map((id: string, i: number) => {
           if (!this.props.items.has(id)) {
             return <Item id={parseInt(id, 10)} key={i} />;
           }
-          return <Item {...this.props.items.get(id)} key={i} />
+          return <Item {...this.props.items.get(id)} swipeMode={this.props.swipeMode} key={i} />
         })}
-      </ListItem>
+      </SwipeableList>
     );
   }
 
@@ -59,10 +73,6 @@ class RealTimeList extends React.Component<Props> {
     const items = snapshot.val().map((e: number) => e.toString()) || [];
     try {
       for (const id of items) {
-        /*if (this.props.items.has(id)) {
-
-          continue;
-        }*/
         APIClient.getInstance().getItem(id).then((item: any) => {
           this.props.addItem(item.val());
         });
@@ -80,6 +90,7 @@ const mapStateToProps = (state: any) => {
   return {
     selectedItems: state.selected,
     items: state.items,
+    swipeMode: state.swipeMode
   };
 };
 

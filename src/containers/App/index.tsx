@@ -6,7 +6,7 @@ import SavedItems from '../SavedItems';
 import RealTimeList from '../RealTimeList';
 
 const Container = styled.div`
-  width: 85%;
+  width: calc(85% - 16px);
   margin: 5px auto;
   @media only screen and (min-width : 300px) and (max-width : 750px) {
     width: 100%;
