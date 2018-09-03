@@ -46,6 +46,13 @@ interface Props {
 }
 
 class ListItem extends React.Component<Props> {
+  public componentDidMount() {
+    const position = parseInt(localStorage.getItem("lastScrollPosition") || "0", 10);
+    if (position > 0 && window.performance.navigation.type ===
+      window.performance.navigation.TYPE_BACK_FORWARD) {
+      window.scrollTo({ top: position });
+    }
+  }
   public render() {
     const { savedItems } = this.props;
     return (

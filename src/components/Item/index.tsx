@@ -86,7 +86,7 @@ export default class Item extends React.Component<ItemProperties & { swipeMode?:
     const { title, url, score, by, descendants, time } = this.props;
     return (
       <Container style={{ textAlign: this.props.swipeMode ? 'center' : 'left' }}>
-        <Title href={url}>{title}</Title>
+        <Title href={url} onMouseDown={this.onClick}>{title}</Title>
         {url ?
           <Domain>(<a href={`http://${this.getUrlDomain(url)}`}>{this.getUrlDomain(url)}</a>)</Domain>
           : null
@@ -109,4 +109,9 @@ export default class Item extends React.Component<ItemProperties & { swipeMode?:
       :
       null
   )
+
+  private onClick = (e: any) => {
+    e.preventDefault();
+    localStorage.setItem("lastScrollPosition", window.scrollY.toString());
+  }
 }
