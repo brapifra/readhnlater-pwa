@@ -50,7 +50,7 @@ class SwipeableList extends React.Component<Props> {
         }}
       >
         <LoadingComponent loading={this.props.loading}>
-          <ReactSwipe swipeOptions={{ continuous: false, callback: this.props.onSwipe }}>
+          <ReactSwipe swipeOptions={{ continuous: false, callback: this.props.onSwipe }} key={this.props.children.length}>
             {this.props.children.map((e: React.ReactElement<any>, i: number) => (
               <SwipeableItem key={i}>
                 <div>{i + 1}.</div>
