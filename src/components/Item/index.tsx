@@ -74,7 +74,7 @@ export interface ItemProperties {
   descendants?: number;
 }
 
-export default class Item extends React.Component<ItemProperties & { swipeMode?: boolean }> {
+export default class Item extends React.Component<ItemProperties & { swipeMode?: boolean, position?: number }> {
   public render() {
     if (Object.keys(this.props).length === 1 && this.props.id) {
       return (
@@ -88,7 +88,12 @@ export default class Item extends React.Component<ItemProperties & { swipeMode?:
       <Container style={{ textAlign: this.props.swipeMode ? 'center' : 'left' }}>
         <Title href={url} onMouseDown={this.onClick}>{title}</Title>
         {url ?
-          <Domain>(<a href={`http://${this.getUrlDomain(url)}`}>{this.getUrlDomain(url)}</a>)</Domain>
+          <Domain>
+            <a
+              href={`http://${this.getUrlDomain(url)}`}
+              onMouseDown={this.onClick}>{this.getUrlDomain(url)}
+            </a>
+          </Domain>
           : null
         }
         <AdditionalInfo>
@@ -112,6 +117,8 @@ export default class Item extends React.Component<ItemProperties & { swipeMode?:
 
   private onClick = (e: any) => {
     e.preventDefault();
-    localStorage.setItem("lastScrollPosition", window.scrollY.toString());
+    if (!this.props.swipeMode) {
+      localStorage.setItem("lastScrollPosition", window.scrollY.toString());
+    }
   }
 }

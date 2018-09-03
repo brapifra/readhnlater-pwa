@@ -41,8 +41,15 @@ interface Props {
 }
 
 class SwipeableList extends React.Component<Props> {
+  private swipeRef: ReactSwipe;
+  private children: number = 0;
+  private lastPosition: number = 0;
   public render() {
     const { savedItems } = this.props;
+    if (this.swipeRef && this.props.children.length !== this.children) {
+      this.lastPosition = this.swipeRef.getPos();
+      this.children = this.props.children.length;
+    }
     return (
       <Container
         style={{
@@ -50,7 +57,15 @@ class SwipeableList extends React.Component<Props> {
         }}
       >
         <LoadingComponent loading={this.props.loading}>
-          <ReactSwipe swipeOptions={{ continuous: false, callback: this.props.onSwipe }} key={this.props.children.length}>
+          <ReactSwipe
+            ref={(rs: ReactSwipe) => this.swipeRef = rs}
+            swipeOptions={{
+              continuous: false,
+              callback: this.props.onSwipe,
+              startSlide: this.lastPosition
+            }}
+            key={this.props.children.length}
+          >
             {this.props.children.map((e: React.ReactElement<any>, i: number) => (
               <SwipeableItem key={i}>
                 <div>{i + 1}.</div>
@@ -65,7 +80,7 @@ class SwipeableList extends React.Component<Props> {
             ))}
           </ReactSwipe>
         </LoadingComponent>
-      </Container>
+      </Container >
     );
   }
 

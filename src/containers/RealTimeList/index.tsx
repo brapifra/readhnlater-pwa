@@ -102,7 +102,7 @@ class RealTimeList extends React.Component<Props> {
   }
 
   private onSwipe = (index: number) => {
-    if (this.API_LIMIT - index === 3) {
+    if (this.API_LIMIT - index === 1) {
       this.onMore();
     }
   }
