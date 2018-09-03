@@ -19,45 +19,34 @@ interface Props {
 }
 
 class RealTimeList extends React.Component<Props> {
+  private API_LIMIT = 30;
   public componentDidMount() {
-    this.props.setLoading(true);
-    switch (this.props.subscribeTo) {
-      case 'newest':
-        APIClient.getInstance().subscribeToNewStories(this.onNewData);
-        break;
-      case 'show':
-        APIClient.getInstance().subscribeToShowStories(this.onNewData);
-        break;
-      case 'ask':
-        APIClient.getInstance().subscribeToAskStories(this.onNewData);
-        break;
-      case 'jobs':
-        APIClient.getInstance().subscribeToJobStories(this.onNewData);
-        break;
-      case 'best':
-        APIClient.getInstance().subscribeToBestStories(this.onNewData);
-        break;
-      default:
-        APIClient.getInstance().subscribeToTopStories(this.onNewData);
-        break;
-    }
+    this.subscribe();
   }
 
   public render() {
     if (!this.props.swipeMode) {
       return (
-        <ListItem loading={this.props.selectedItems.length === 0}>
-          {this.props.selectedItems.map((id: string, i: number) => {
-            if (!this.props.items.has(id)) {
-              return <Item id={parseInt(id, 10)} key={i} />;
-            }
-            return <Item {...this.props.items.get(id)} key={i} />
-          })}
-        </ListItem>
+        <div style={{ background: '#f6f6ef' }}>
+          <ListItem loading={this.props.selectedItems.length === 0}>
+            {this.props.selectedItems.map((id: string, i: number) => {
+              if (!this.props.items.has(id)) {
+                return <Item id={parseInt(id, 10)} key={i} />;
+              }
+              return <Item {...this.props.items.get(id)} key={i} />
+            })}
+          </ListItem>
+          <span
+            onClick={this.onMore}
+            style={{ padding: '0px 32px', cursor: 'pointer', fontSize: '10pt', color: '#828282' }}
+          >
+            More
+           </span>
+        </div>
       );
     }
     return (
-      <SwipeableList loading={this.props.selectedItems.length === 0}>
+      <SwipeableList loading={this.props.selectedItems.length === 0} onSwipe={this.onSwipe}>
         {this.props.selectedItems.map((id: string, i: number) => {
           if (!this.props.items.has(id)) {
             return <Item id={parseInt(id, 10)} key={i} />;
@@ -83,6 +72,40 @@ class RealTimeList extends React.Component<Props> {
     }
     this.props.setLoading(false);
   };
+
+  private subscribe = () => {
+    this.props.setLoading(true);
+    switch (this.props.subscribeTo) {
+      case 'newest':
+        APIClient.getInstance().subscribeToNewStories(this.onNewData, this.API_LIMIT);
+        break;
+      case 'show':
+        APIClient.getInstance().subscribeToShowStories(this.onNewData, this.API_LIMIT);
+        break;
+      case 'ask':
+        APIClient.getInstance().subscribeToAskStories(this.onNewData, this.API_LIMIT);
+        break;
+      case 'jobs':
+        APIClient.getInstance().subscribeToJobStories(this.onNewData, this.API_LIMIT);
+        break;
+      case 'best':
+        APIClient.getInstance().subscribeToBestStories(this.onNewData, this.API_LIMIT);
+        break;
+      default:
+        APIClient.getInstance().subscribeToTopStories(this.onNewData, this.API_LIMIT);
+        break;
+    }
+  }
+  private onMore = () => {
+    this.API_LIMIT += 30;
+    this.subscribe();
+  }
+
+  private onSwipe = (index: number) => {
+    if (this.API_LIMIT - index === 3) {
+      this.onMore();
+    }
+  }
 }
 
 

@@ -37,10 +37,10 @@ interface Props {
   savedItems: OrderedMap<string, ItemProperties>;
   saveItem: (payload: ItemProperties) => void;
   unSaveItem: (payload: ItemProperties) => void;
+  onSwipe?: (index: number, elem: HTMLElement) => void;
 }
 
 class SwipeableList extends React.Component<Props> {
-  private listRef: ReactSwipe | null;
   public render() {
     const { savedItems } = this.props;
     return (
@@ -50,7 +50,7 @@ class SwipeableList extends React.Component<Props> {
         }}
       >
         <LoadingComponent loading={this.props.loading}>
-          <ReactSwipe ref={reactSwipe => this.listRef = reactSwipe} swipeOptions={{ continuous: false }}>
+          <ReactSwipe swipeOptions={{ continuous: false, callback: this.props.onSwipe }}>
             {this.props.children.map((e: React.ReactElement<any>, i: number) => (
               <SwipeableItem key={i}>
                 <div>{i + 1}.</div>
@@ -77,11 +77,6 @@ class SwipeableList extends React.Component<Props> {
       this.props.saveItem(item);
     }
   }
-  /*private onclick = () => {
-    if (this.listRef) {
-      this.listRef.next();
-    }
-  }*/
 }
 
 const mapStateToProps = (state: any) => {
