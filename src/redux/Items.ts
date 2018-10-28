@@ -1,5 +1,5 @@
 import { ItemProperties } from '../components/Item';
-import { OrderedMap } from 'immutable';
+import { OrderedMap, List } from 'immutable';
 import { combineReducers } from 'redux';
 
 export enum Actions {
@@ -41,10 +41,10 @@ function ItemsReducer(state = OrderedMap<string, ItemProperties>(), action: Acti
   }
 }
 
-function SelectedReducer(state: string[] = [], action: Action): string[] {
+function SelectedReducer(state: List<string> = List(), action: Action): List<string> {
   switch (action.type) {
     case Actions.SET_SELECTED_ITEMS:
-      return action.payload.map((e: string) => e.toString())
+      return List(action.payload.map((e: number) => e.toString()));
     default:
       return state;
   }

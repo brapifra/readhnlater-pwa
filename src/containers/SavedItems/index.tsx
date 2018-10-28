@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import { OrderedMap } from 'immutable';
 
 interface Props {
-  savedItems: OrderedMap<number, ItemProperties>;
+  savedItems: OrderedMap<string, ItemProperties>;
 }
 
 class SavedItems extends React.Component<Props> {
   public render() {
     return (
       <ListItem>
-        {this.props.savedItems.toArray().map((item: ItemProperties, i: number) => {
+        {this.props.savedItems.reverse().toArray().map((item: ItemProperties, i: number) => {
           return <Item {...item} key={i} />
         })}
       </ListItem>

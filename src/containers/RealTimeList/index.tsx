@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { OrderedMap } from 'immutable';
+import { OrderedMap, List } from 'immutable';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import APIClient from '../../utils/APIClient';
@@ -9,7 +9,7 @@ import { Actions } from '../../redux/Items';
 
 interface Props {
   subscribeTo?: 'newest' | 'show' | 'ask' | 'jobs' | 'best';
-  selectedItems: string[];
+  selectedItems: List<string>;
   items: OrderedMap<string, ItemProperties>;
   addItem: (s: ItemProperties) => void;
   setSelectedItems: (list: string[]) => void;
@@ -25,8 +25,8 @@ class RealTimeList extends React.Component<Props> {
   public render() {
     return (
       <div style={{ background: '#f6f6ef' }}>
-        <ListItem loading={this.props.selectedItems.length === 0}>
-          {this.props.selectedItems.map((id: string, i: number) => {
+        <ListItem loading={this.props.selectedItems.size === 0}>
+          {this.props.selectedItems.toJS().map((id: string, i: number) => {
             if (!this.props.items.has(id)) {
               return <Item id={parseInt(id, 10)} key={i} />;
             }
