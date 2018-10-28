@@ -19,6 +19,11 @@ interface Props {
 class RealTimeList extends React.Component<Props> {
   private API_LIMIT = 30;
   public componentDidMount() {
+    // If selectedItems has previously been saved as string[], save it now as List<string>
+    if (this.props.selectedItems.toJS === undefined) {
+      this.props.setSelectedItems(this.props.selectedItems as any);
+    }
+
     this.subscribe();
   }
 
