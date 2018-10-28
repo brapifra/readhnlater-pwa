@@ -18,9 +18,7 @@ export default class App extends React.Component {
 
   public render() {
     return (
-      <Router
-        basename={process.env.PUBLIC_URL}
-      >
+      <Router>
         <Container>
           <Header />
           <Route
