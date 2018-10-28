@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import Header from '../../components/Header';
 import styled from 'styled-components';
 import SavedItems from '../SavedItems';
@@ -19,8 +19,7 @@ export default class App extends React.Component {
   public render() {
     return (
       <Router
-        basename={process.env.NODE_ENV === 'production' ?
-          "/readhnlater-pwa" : ""}
+        basename={process.env.PUBLIC_URL}
       >
         <Container>
           <Header />
