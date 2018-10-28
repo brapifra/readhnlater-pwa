@@ -74,7 +74,7 @@ export interface ItemProperties {
   descendants?: number;
 }
 
-export default class Item extends React.Component<ItemProperties & { swipeMode?: boolean, position?: number }> {
+export default class Item extends React.Component<ItemProperties> {
   public render() {
     if (Object.keys(this.props).length === 1 && this.props.id) {
       return (
@@ -85,7 +85,7 @@ export default class Item extends React.Component<ItemProperties & { swipeMode?:
     }
     const { title, url, score, by, descendants, time } = this.props;
     return (
-      <Container style={{ textAlign: this.props.swipeMode ? 'center' : 'left' }}>
+      <Container>
         <Title href={url} onMouseDown={this.onClick}>{title}</Title>
         {url ?
           <Domain>
@@ -117,8 +117,6 @@ export default class Item extends React.Component<ItemProperties & { swipeMode?:
 
   private onClick = (e: any) => {
     e.preventDefault();
-    if (!this.props.swipeMode) {
-      localStorage.setItem("lastScrollPosition", window.scrollY.toString());
-    }
+    localStorage.setItem("lastScrollPosition", window.scrollY.toString());
   }
 }

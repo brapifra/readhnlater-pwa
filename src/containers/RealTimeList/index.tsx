@@ -6,7 +6,6 @@ import APIClient from '../../utils/APIClient';
 import ListItem from '../../components/ListItem';
 import Item, { ItemProperties } from '../../components/Item';
 import { Actions } from '../../redux/Items';
-import SwipeableList from '../../components/SwipeableList';
 
 interface Props {
   subscribeTo?: 'newest' | 'show' | 'ask' | 'jobs' | 'best';
@@ -15,7 +14,6 @@ interface Props {
   addItem: (s: ItemProperties) => void;
   setSelectedItems: (list: string[]) => void;
   setLoading: (b: boolean) => void;
-  swipeMode: boolean;
 }
 
 class RealTimeList extends React.Component<Props> {
@@ -25,35 +23,23 @@ class RealTimeList extends React.Component<Props> {
   }
 
   public render() {
-    if (!this.props.swipeMode) {
-      return (
-        <div style={{ background: '#f6f6ef' }}>
-          <ListItem loading={this.props.selectedItems.length === 0}>
-            {this.props.selectedItems.map((id: string, i: number) => {
-              if (!this.props.items.has(id)) {
-                return <Item id={parseInt(id, 10)} key={i} />;
-              }
-              return <Item {...this.props.items.get(id)} key={i} />
-            })}
-          </ListItem>
-          <span
-            onClick={this.onMore}
-            style={{ padding: '0px 32px', cursor: 'pointer', fontSize: '10pt', color: '#828282' }}
-          >
-            More
-           </span>
-        </div>
-      );
-    }
     return (
-      <SwipeableList loading={this.props.selectedItems.length === 0} onSwipe={this.onSwipe}>
-        {this.props.selectedItems.map((id: string, i: number) => {
-          if (!this.props.items.has(id)) {
-            return <Item id={parseInt(id, 10)} key={i} />;
-          }
-          return <Item {...this.props.items.get(id)} swipeMode={this.props.swipeMode} key={i} />
-        })}
-      </SwipeableList>
+      <div style={{ background: '#f6f6ef' }}>
+        <ListItem loading={this.props.selectedItems.length === 0}>
+          {this.props.selectedItems.map((id: string, i: number) => {
+            if (!this.props.items.has(id)) {
+              return <Item id={parseInt(id, 10)} key={i} />;
+            }
+            return <Item {...this.props.items.get(id)} key={i} />
+          })}
+        </ListItem>
+        <span
+          onClick={this.onMore}
+          style={{ padding: '0px 32px', cursor: 'pointer', fontSize: '10pt', color: '#828282' }}
+        >
+          More
+           </span>
+      </div>
     );
   }
 
@@ -100,20 +86,13 @@ class RealTimeList extends React.Component<Props> {
     this.API_LIMIT += 30;
     this.subscribe();
   }
-
-  private onSwipe = (index: number) => {
-    if (this.API_LIMIT - index === 1) {
-      this.onMore();
-    }
-  }
 }
 
 
 const mapStateToProps = (state: any) => {
   return {
     selectedItems: state.selected,
-    items: state.items,
-    swipeMode: state.swipeMode
+    items: state.items
   };
 };
 

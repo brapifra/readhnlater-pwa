@@ -9,7 +9,6 @@ export enum Actions {
   DELETE_ITEM = "DELETE_ITEM",
   SET_SELECTED_ITEMS = "SET_SELECTED_ITEMS",
   SET_LOADING = "SET_LOADING",
-  SET_SWIPE_MODE = "SET_SWIPE_MODE"
 }
 
 interface Action {
@@ -60,19 +59,9 @@ function LoadingReducer(state: boolean = true, action: Action): boolean {
   }
 }
 
-function SwipeModeReducer(state: boolean = false, action: Action): boolean {
-  switch (action.type) {
-    case Actions.SET_SWIPE_MODE:
-      return action.payload;
-    default:
-      return state;
-  }
-}
-
 export default combineReducers({
   saved: SavedItemsReducer,
   items: ItemsReducer,
   selected: SelectedReducer,
-  loading: LoadingReducer,
-  swipeMode: SwipeModeReducer
+  loading: LoadingReducer
 });

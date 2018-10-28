@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { Actions } from '../../redux/Items';
 
 const Container = styled.div`
   color: white;
@@ -41,9 +39,7 @@ const Container = styled.div`
 `;
 
 interface Props {
-  swipeMode: boolean;
   loading: boolean;
-  setSwipeMode: (b: boolean) => void;
 }
 
 class Header extends React.Component<Props> {
@@ -57,15 +53,9 @@ class Header extends React.Component<Props> {
         <Link to="/jobs">jobs</Link>
         <Link to="/best">best</Link>
         <Link to="/saved">saved</Link>
-        <span onClick={this.toggleSwipeMode}>
-          {this.props.swipeMode ? 'desktop' : 'swipe'}
-        </span>
         {this.props.loading ? <span><ClipLoader color="white" size={11} /></span> : null}
       </Container>
     );
-  }
-  private toggleSwipeMode = () => {
-    this.props.setSwipeMode(!this.props.swipeMode);
   }
 }
 
@@ -73,13 +63,7 @@ class Header extends React.Component<Props> {
 const mapStateToProps = (state: any) => {
   return {
     loading: state.loading,
-    swipeMode: state.swipeMode
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setSwipeMode: (payload: boolean) => dispatch({ type: Actions.SET_SWIPE_MODE, payload }),
-})
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);
