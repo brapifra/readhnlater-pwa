@@ -28,10 +28,13 @@ class RealTimeList extends React.Component<Props> {
   }
 
   public render() {
+    const { selectedItems } = this.props;
+    const items: string[] = selectedItems.toJS ? selectedItems.toJS() : selectedItems;
+
     return (
       <div style={{ background: '#f6f6ef' }}>
         <ListItem loading={this.props.selectedItems.size === 0}>
-          {this.props.selectedItems.toJS().map((id: string, i: number) => {
+          {items.map((id: string, i: number) => {
             if (!this.props.items.has(id)) {
               return <Item id={parseInt(id, 10)} key={i} />;
             }
