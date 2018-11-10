@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as moment from 'moment';
 import { FaComment } from 'react-icons/fa';
 import styled from 'styled-components';
-import { ItemProperties } from '../Item';
+import { ItemProperties } from '../ItemHeader';
 import ItemFetcher from '../ItemFetcher';
 
 const Container = styled.div`

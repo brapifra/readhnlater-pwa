@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Item, { ItemProperties } from "../Item";
+import ItemHeader, { ItemProperties } from "../ItemHeader";
 import Comment from '../Comment';
 import { match as Match } from 'react-router';
 import { OrderedMap } from 'immutable';
@@ -37,7 +37,7 @@ export default class FullItem extends React.Component<Props> {
 
     const renderItem = (item: ItemProperties) => (
       <Container>
-        <Item {...item} />
+        <ItemHeader {...item} />
         <Description dangerouslySetInnerHTML={{ __html: (item).text || '' }} />
         <Comments>
           {(item.kids || []).map((kidId, index) => (

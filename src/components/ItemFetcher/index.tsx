@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ItemProperties } from "../Item";
+import { ItemProperties } from "../ItemHeader";
 import LoadingComponent from '../LoadingComponent';
 import { OrderedMap } from 'immutable';
 import APIClient from 'src/utils/APIClient';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ListItem from '../../components/ListItem';
-import Item, { ItemProperties } from '../../components/Item';
+import ItemHeader, { ItemProperties } from '../../components/ItemHeader';
 import { connect } from 'react-redux';
 import { OrderedMap } from 'immutable';
 
@@ -13,7 +13,7 @@ class SavedItems extends React.PureComponent<Props> {
     return (
       <ListItem>
         {this.props.savedItems.reverse().toArray().map((item: ItemProperties, i: number) => {
-          return <Item {...item} key={i} />
+          return <ItemHeader {...item} key={i} />
         })}
       </ListItem>
     );

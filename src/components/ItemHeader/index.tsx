@@ -74,7 +74,7 @@ export interface ItemProperties {
   descendants?: number;
 }
 
-export default class Item extends React.PureComponent<ItemProperties> {
+export default class ItemHeader extends React.PureComponent<ItemProperties> {
   public render() {
     if (Object.keys(this.props).length === 1 && this.props.id) {
       return (

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IoMdBookmark } from 'react-icons/io';
 import LoadingComponent from '../LoadingComponent';
-import { ItemProperties } from '../Item';
+import { ItemProperties } from '../ItemHeader';
 import { Dispatch } from 'redux';
 import { Actions } from '../../redux/Items';
 import { OrderedMap } from 'immutable';

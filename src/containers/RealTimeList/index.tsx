@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import APIClient from '../../utils/APIClient';
 import ListItem from '../../components/ListItem';
-import Item, { ItemProperties } from '../../components/Item';
+import ItemHeader, { ItemProperties } from '../../components/ItemHeader';
 import { Actions } from '../../redux/Items';
 
 interface Props {
@@ -36,9 +36,9 @@ class RealTimeList extends React.PureComponent<Props> {
         <ListItem loading={this.props.selectedItems.size === 0}>
           {items.map((id: string, i: number) => {
             if (!this.props.items.has(id)) {
-              return <Item id={parseInt(id, 10)} key={i} />;
+              return <ItemHeader id={parseInt(id, 10)} key={i} />;
             }
-            return <Item {...this.props.items.get(id)} key={i} />
+            return <ItemHeader {...this.props.items.get(id)} key={i} />
           })}
         </ListItem>
         <span

@@ -1,4 +1,4 @@
-import { ItemProperties } from '../components/Item';
+import { ItemProperties } from '../components/ItemHeader';
 import { OrderedMap, List } from 'immutable';
 import { combineReducers } from 'redux';
 
