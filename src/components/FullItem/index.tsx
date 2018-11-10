@@ -37,13 +37,19 @@ export default class FullItem extends React.Component<Props> {
 
     const renderItem = (item: ItemProperties) => (
       <Container>
-        <ItemHeader {...item} />
-        <Description dangerouslySetInnerHTML={{ __html: (item).text || '' }} />
-        <Comments>
-          {(item.kids || []).map((kidId, index) => (
-            <ItemFetcher id={kidId.toString()} render={renderComment} key={index} />
-          ))}
-        </Comments>
+        {item.type && item.type === 'comment' ?
+          <Comment {...item} />
+          :
+          <React.Fragment>
+            <ItemHeader {...item} />
+            <Description dangerouslySetInnerHTML={{ __html: (item).text || '' }} />
+            <Comments>
+              {(item.kids || []).map((kidId, index) => (
+                <ItemFetcher id={kidId.toString()} render={renderComment} key={index} />
+              ))}
+            </Comments>
+          </React.Fragment>
+        }
       </Container>
     );
 

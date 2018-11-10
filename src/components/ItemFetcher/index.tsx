@@ -27,9 +27,10 @@ class FullItem extends React.Component<Props, State> {
 
     if (!item) {
       item = (await APIClient.getInstance().getItem(parseInt(id, 10))).val();
+      this.setState({ item }, () => addItem(item));
     }
 
-    this.setState({ item }, () => addItem(item));
+    this.setState({ item });
   }
 
   public shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
