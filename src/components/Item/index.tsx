@@ -83,10 +83,14 @@ export default class Item extends React.PureComponent<ItemProperties> {
         </Container>
       );
     }
-    const { title, url, score, by, descendants, time } = this.props;
+
+    const { title, url, score, by, descendants, time, id } = this.props;
+    const { origin, pathname } = window.location;
+    const itemUrl = `${origin}${pathname}#/item/${id}`;
+
     return (
       <Container>
-        <Title href={url} onMouseDown={this.onClick}>{title}</Title>
+        <Title href={url || itemUrl} onMouseDown={this.onClick}>{title}</Title>
         {url ?
           <Domain>
             <a
@@ -99,7 +103,7 @@ export default class Item extends React.PureComponent<ItemProperties> {
         <AdditionalInfo>
           {score ? <span>{score} points by <a>{by}</a></span> : null}
           {time ? <span>{moment.unix(time).fromNow()}</span> : null}
-          {descendants ? <a>{descendants} comments</a> : null}
+          {descendants ? <a href={itemUrl}>{descendants} comments</a> : null}
         </AdditionalInfo>
       </Container>
     );

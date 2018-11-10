@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import styled from 'styled-components';
 import SavedItems from '../SavedItems';
 import RealTimeList from '../RealTimeList';
+import FullItem from 'src/components/FullItem';
 
 const Container = styled.div`
   width: calc(85% - 16px);
@@ -46,6 +47,10 @@ export default class App extends React.PureComponent {
           <Route
             path="/best"
             component={this.realTimeRoute("best")}
+          />
+          <Route
+            path="/item/:id"
+            component={FullItem}
           />
         </Container >
       </Router >
