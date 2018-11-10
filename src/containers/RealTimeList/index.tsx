@@ -16,7 +16,7 @@ interface Props {
   setLoading: (b: boolean) => void;
 }
 
-class RealTimeList extends React.Component<Props> {
+class RealTimeList extends React.PureComponent<Props> {
   private API_LIMIT = 30;
   public componentDidMount() {
     // If selectedItems has previously been saved as string[], save it now as List<string>

@@ -8,7 +8,7 @@ interface Props {
   savedItems: OrderedMap<string, ItemProperties>;
 }
 
-class SavedItems extends React.Component<Props> {
+class SavedItems extends React.PureComponent<Props> {
   public render() {
     return (
       <ListItem>

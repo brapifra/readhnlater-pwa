@@ -45,7 +45,7 @@ interface Props {
   unSaveItem: (payload: ItemProperties) => void;
 }
 
-class ListItem extends React.Component<Props> {
+class ListItem extends React.PureComponent<Props> {
   public componentDidMount() {
     const position = parseInt(localStorage.getItem("lastScrollPosition") || "0", 10);
     if (position > 0 && window.performance.navigation.type ===

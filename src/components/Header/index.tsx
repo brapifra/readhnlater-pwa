@@ -42,7 +42,7 @@ interface Props {
   loading: boolean;
 }
 
-class Header extends React.Component<Props> {
+class Header extends React.PureComponent<Props> {
   public render() {
     return (
       <Container>
