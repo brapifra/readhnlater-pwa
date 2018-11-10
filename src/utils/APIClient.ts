@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/database';
 
 const config = {
-  databaseURL: " https://hacker-news.firebaseio.com/"
+  databaseURL: "https://hacker-news.firebaseio.com/"
 };
 
 class APIClient {
