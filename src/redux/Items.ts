@@ -9,6 +9,7 @@ export enum Actions {
   DELETE_ITEM = "DELETE_ITEM",
   SET_SELECTED_ITEMS = "SET_SELECTED_ITEMS",
   SET_LOADING = "SET_LOADING",
+  LOAD_SAVED_ITEMS = "LOAD_SAVED_ITEMS"
 }
 
 interface Action {
@@ -22,6 +23,10 @@ function SavedItemsReducer(state = OrderedMap<string, ItemProperties>(), action:
       return state.set(action.payload.id.toString(), action.payload)
     case Actions.UNSAVE_ITEM:
       return state.delete(action.payload.id.toString());
+    case Actions.LOAD_SAVED_ITEMS:
+      return action.payload.items.reduce((newState: OrderedMap<string, ItemProperties>, item: ItemProperties) => (
+        newState.set(item.id.toString(), item)
+      ), OrderedMap<string, ItemProperties>());
     default:
       return state;
   }
