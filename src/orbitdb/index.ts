@@ -1,7 +1,6 @@
 import IPFS from 'ipfs';
 import OrbitDB from 'orbit-db';
 import Store from '../redux';
-import redux from '../redux';
 import { ItemProperties } from 'src/components/ItemHeader';
 import { Actions } from 'src/redux/Items';
 
@@ -27,8 +26,13 @@ export default class Orbit {
       await Orbit.init();
     }
 
-    Orbit.db = await Orbit.instance.docs(address, { indexBy: 'id' });
+    Orbit.db = await Orbit.instance.docs(address, { indexBy: 'id', write: ['*'] });
     await Orbit.db.load();
+
+    Orbit.db.events.on('replicated', ()=>{
+      console.log('OrbitDB: Replicated');
+      Orbit.loadOrbitToRedux();
+    });
 
     // Legacy
     Orbit.loadReduxToOrbit();
@@ -62,6 +66,13 @@ export default class Orbit {
   private static ipfsOptions = {
     EXPERIMENTAL: {
       pubsub: true
+    },
+    config: {
+      Addresses: {
+        Swarm: [
+          '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star',
+        ]
+      },
     }
   };
 
