@@ -42,6 +42,22 @@ export default class Orbit {
     return Orbit.openDB('readhnlater');
   }
 
+  public static async put(item: ItemProperties): Promise<void>{
+    if(!Orbit.db){
+      return Promise.reject();
+    }
+
+    await Orbit.db.put(item); 
+  }
+
+  public static async del(id: number): Promise<void>{
+    if(!Orbit.db){
+      return Promise.reject();
+    }
+
+    await Orbit.db.del(id); 
+  }
+
   private static ipfs: any;
   private static ipfsOptions = {
     EXPERIMENTAL: {

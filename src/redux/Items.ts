@@ -1,6 +1,7 @@
 import { ItemProperties } from '../components/ItemHeader';
 import { OrderedMap, List } from 'immutable';
 import { combineReducers } from 'redux';
+import OrbitDB from 'src/orbitdb';
 
 export enum Actions {
   SAVE_ITEM = "SAVE_ITEM",
@@ -20,8 +21,10 @@ interface Action {
 function SavedItemsReducer(state = OrderedMap<string, ItemProperties>(), action: Action): OrderedMap<string, ItemProperties> {
   switch (action.type) {
     case Actions.SAVE_ITEM:
+      OrbitDB.put(action.payload);
       return state.set(action.payload.id.toString(), action.payload)
     case Actions.UNSAVE_ITEM:
+      OrbitDB.del(action.payload.id);
       return state.delete(action.payload.id.toString());
     case Actions.LOAD_SAVED_ITEMS:
       return action.payload.items.reduce((newState: OrderedMap<string, ItemProperties>, item: ItemProperties) => (

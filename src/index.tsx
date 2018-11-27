@@ -7,9 +7,9 @@ import './index.css';
 import OrbitDB from './orbitdb';
 import registerServiceWorker from './registerServiceWorker';
 
-export default function bootstrap() {
+export default async function bootstrap() {
   const orbitDbAddress = localStorage.getItem('orbitDbAddress');
-  orbitDbAddress ? OrbitDB.openDB(orbitDbAddress) : OrbitDB.createDB();
+  orbitDbAddress ? await OrbitDB.openDB(orbitDbAddress) : await OrbitDB.createDB();
 
   ReactDOM.render(
     <Provider store={Store}>
