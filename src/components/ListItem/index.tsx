@@ -8,7 +8,7 @@ import { Actions } from '../../redux/Items';
 import { OrderedMap } from 'immutable';
 import { connect } from 'react-redux';
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
   padding: 10px 4px;
   background: #f6f6ef;

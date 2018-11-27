@@ -25,7 +25,8 @@
     "react-spinners": "^0.4.5",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
-    "styled-components": "^3.4.5"
+    "styled-components": "^3.4.5",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts-ts start",

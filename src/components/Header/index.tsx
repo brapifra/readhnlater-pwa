@@ -53,6 +53,7 @@ class Header extends React.PureComponent<Props> {
         <Link to="/jobs">jobs</Link>
         <Link to="/best">best</Link>
         <Link to="/saved">saved</Link>
+        <Link to="/sync">sync</Link>
         {this.props.loading ? <span><ClipLoader color="white" size={11} /></span> : null}
       </Container>
     );

@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import styled from 'styled-components';
 import SavedItems from '../SavedItems';
 import RealTimeList from '../RealTimeList';
+import Sync from '../Sync';
 import FullItem from 'src/components/FullItem';
 
 const Container = styled.div`
@@ -28,6 +29,7 @@ export default class App extends React.PureComponent {
             component={this.realTimeRoute()}
           />
           <Route exact={true} path="/saved" component={this.savedItemsRoute} />
+          <Route exact={true} path="/sync" component={this.syncRoute} />
           <Route
             path="/newest"
             component={this.realTimeRoute("newest")}
@@ -63,5 +65,9 @@ export default class App extends React.PureComponent {
 
   private savedItemsRoute = () => (
     <SavedItems />
+  );
+
+  private syncRoute = () => (
+    <Sync />
   );
 }

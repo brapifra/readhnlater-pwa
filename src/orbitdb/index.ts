@@ -1,5 +1,6 @@
 import IPFS from 'ipfs';
 import OrbitDB from 'orbit-db';
+import uuidv4 from 'uuid/v4';
 import Store from '../redux';
 import { ItemProperties } from 'src/components/ItemHeader';
 import { Actions } from 'src/redux/Items';
@@ -26,6 +27,10 @@ export default class Orbit {
       await Orbit.init();
     }
 
+    if(Orbit.db){
+      Orbit.db.close();
+    }
+
     Orbit.db = await Orbit.instance.docs(address, { indexBy: 'id', write: ['*'] });
     await Orbit.db.load();
 
@@ -39,11 +44,12 @@ export default class Orbit {
 
     Orbit.loadOrbitToRedux();
 
+    localStorage.setItem('orbitDbAddress', Orbit.db.id);
     return Orbit.db;
   }
 
   public static createDB(): Promise<any> {
-    return Orbit.openDB('readhnlater');
+    return Orbit.openDB(`readhnlater-${uuidv4()}`);
   }
 
   public static async put(item: ItemProperties): Promise<void>{
@@ -60,6 +66,10 @@ export default class Orbit {
     }
 
     await Orbit.db.del(id); 
+  }
+
+  public static getDbId(): string | undefined {
+    return Orbit.db ? Orbit.db.id : undefined;
   }
 
   private static ipfs: any;
