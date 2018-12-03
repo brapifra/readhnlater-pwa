@@ -4058,6 +4058,13 @@ grpc@1.13.1:
     node-pre-gyp "^0.10.0"
     protobufjs "^5.0.3"
 
+gun@^0.9.99999:
+  version "0.9.99999"
+  resolved "https://registry.yarnpkg.com/gun/-/gun-0.9.99999.tgz#579aa1f9aaf8a19bdbcedc8d75362d841c8225db"
+  integrity sha512-W/xxWFO/8M/3QLvU8YHyKu9RCP+WVfdevJSx3ZH4hParyhRT/GU0ekfb4ZolM/5iCZ4Mn95MrDFjsu9b07PxUQ==
+  dependencies:
+    ws "~>5.2.0"
+
 gzip-size@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-3.0.0.tgz#546188e9bdc337f673772f81660464b389dce520"
@@ -9661,7 +9668,7 @@ write-file-atomic@^2.0.0, write-file-atomic@^2.1.0:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.2"
 
-ws@^5.2.0:
+ws@^5.2.0, ws@~>5.2.0:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/ws/-/ws-5.2.2.tgz#dffef14866b8e8dc9133582514d1befaf96e980f"
   integrity sha512-jaHFD6PFv6UgoIVda6qZllptQsMlDEJkTQcybzzXDYM1XO9Y8em691FGMPmM46WGyLU4z9KMgQN+qrux/nhlHA==
