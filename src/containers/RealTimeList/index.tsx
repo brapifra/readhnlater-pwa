@@ -27,6 +27,10 @@ class RealTimeList extends React.PureComponent<Props> {
     this.subscribe();
   }
 
+  public componentWillUnmount(){
+    APIClient.getInstance().removeListener();
+  }
+
   public render() {
     const { selectedItems } = this.props;
     const items: string[] = selectedItems.toJS ? selectedItems.toJS() : selectedItems;
