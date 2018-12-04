@@ -54,7 +54,7 @@ class ListItem extends React.PureComponent<Props> {
 
   private renderList = (data: any = {}, err?: any, gun?: GunHelper) => {
     if (err || !gun) {
-      console.error(err);
+      console.warn(err ? err : 'Gun helper not ready yet');
       return null;
     }
 

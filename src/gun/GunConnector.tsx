@@ -23,20 +23,27 @@ export default class GunConnector extends React.PureComponent<GunConnectorProps>
   public async componentDidMount() {
     try {
       const gun = await GunFactory.get();
-      gun.subscribe(this.props.nodeKey, this.updateState);
-      this.setState({ gun })
+      const data = await gun.get(this.props.nodeKey);
+
+      this.setState({ gun, data }, () => {
+        gun.subscribe(this.props.nodeKey, this.updateState);
+      });
     } catch (err) {
       this.setState({ err });
     }
   }
 
-  public async componentWillUnmount() {
+  public componentWillUnmount() {
     if (this.state.gun) {
       this.state.gun.unsubscribe(this.props.nodeKey);
     }
   }
 
-  private updateState = async (data: any) => {
+  private updateState = (data: any) => {
+    if (this.state.data && JSON.stringify(data) === JSON.stringify(this.state.data)) {
+      return;
+    }
+
     this.setState({ data });
   }
 

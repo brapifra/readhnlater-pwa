@@ -34,12 +34,19 @@ export default class GunHelper {
 
   public get(key: string): Promise<any> {
     return new Promise((resolve) => {
-      this.getNode(key).get(resolve);
+      this.getNode(key).once((newData: any) => {
+        if (!newData) {
+          return;
+        }
+        const { _, ...rest } = newData;
+
+        resolve(rest);
+      });
     });
   }
 
   public put(key: string, value: object | number | string | null): any {
-    return this.getNode(key).put(value, (ack: any)=>{
+    return this.getNode(key).put(value, (ack: any) => {
       console.log(ack);
     });
   }
