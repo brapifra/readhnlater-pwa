@@ -1,42 +1,56 @@
 
 export default class GunHelper {
   private gun: any;
-  private path: string;
 
   constructor(gun: any) {
-    this.gun = gun;
-    this.path = 'readhnlater/' + gun.is.pub;
+    this.gun = gun.get('readhnlater/' + gun.is.pub);
   }
 
-  public subscribe(callback: (data: any) => void) {
-    this.gun.get(this.path).on((newData: any) => {
+  public getNode(key: string): any {
+    const keys = key.trim().split('.');
+    let node = this.gun;
+
+    for (const k of keys) {
+      node = node.get(k);
+    }
+
+    return node;
+  }
+
+  public subscribe(key: string, callback: (data: any) => void) {
+    this.getNode(key).on((newData: any) => {
       if (!newData) {
         return;
       }
       const { _, ...rest } = newData;
 
       callback(rest);
-    }, {
-        change: true
-      });
-  }
-
-  public put(key: string, value: object) {
-    this.gun.get(this.path).get(key).put(value);
-  }
-
-
-  public get(key: string): Promise<any> {
-    return new Promise((resolve) => {
-      this.gun.get(this.path).get(key).get(resolve);
     });
   }
 
-  public remove(key: string) {
-    this.gun.get(this.path).get(key).put(null);
+  public unsubscribe(key: string) {
+    this.getNode(key).off();
   }
 
-  public drop() {
-    this.gun.get(this.path).put(null);
+  public get(key: string): Promise<any> {
+    return new Promise((resolve) => {
+      this.getNode(key).get(resolve);
+    });
+  }
+
+  public put(key: string, value: object | number | string | null): any {
+    return this.getNode(key).put(value, (ack: any)=>{
+      console.log(ack);
+    });
+  }
+
+  public remove(key: string): any {
+    return this.put(key, null);
+  }
+
+  public drop(): any {
+    sessionStorage.clear();
+    localStorage.clear();
+    return this.gun.put(null);
   }
 }

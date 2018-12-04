@@ -3,8 +3,8 @@ import { OrderedMap, List } from 'immutable';
 import { combineReducers } from 'redux';
 
 export enum Actions {
-  SAVE_ITEM = "SAVE_ITEM",
-  UNSAVE_ITEM = "UNSAVE_ITEM",
+  SAVE_ITEM = "SAVE_ITEM", // Deprecated
+  UNSAVE_ITEM = "UNSAVE_ITEM", // Deprecated
   ADD_ITEM = "ADD_ITEM",
   DELETE_ITEM = "DELETE_ITEM",
   SET_SELECTED_ITEMS = "SET_SELECTED_ITEMS",
@@ -16,6 +16,7 @@ interface Action {
   payload: any;
 }
 
+// Deprecated
 function SavedItemsReducer(state = OrderedMap<string, ItemProperties>(), action: Action): OrderedMap<string, ItemProperties> {
   switch (action.type) {
     case Actions.SAVE_ITEM:

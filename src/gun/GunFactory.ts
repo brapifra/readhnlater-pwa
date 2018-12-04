@@ -4,7 +4,13 @@ import 'gun/sea';
 
 export default class GunFactory {
   private static gun: GunHelper;
-  private static user = Gun('http://gungame.herokuapp.com/gun').user();
+  private static peers: string[] = [
+    'https://notabug.io/gun',
+    'https://dontsuemebro.com/gun',
+    'https://gun.redguardsaustin.com/gun',
+    'https://communard.org/gun'
+  ]
+  private static user = Gun(GunFactory.peers).user();
 
   private static checkErrors(username: string, password: string) {
     if (!username || !password) {

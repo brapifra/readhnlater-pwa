@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { IoMdBookmark } from 'react-icons/io';
 import LoadingComponent from '../LoadingComponent';
 import { ItemProperties } from '../ItemHeader';
-import { Dispatch } from 'redux';
-import { Actions } from '../../redux/Items';
 import { OrderedMap } from 'immutable';
 import { connect } from 'react-redux';
+import GunConnector from 'src/gun/GunConnector';
+import GunHelper from 'src/gun/GunHelper';
 
 const Container = styled.div`
   width: 100%;
@@ -40,9 +40,7 @@ const ItemRow = styled.tr`
 interface Props {
   children: React.ReactNode[];
   loading?: boolean;
-  savedItems: OrderedMap<string, ItemProperties>;
-  saveItem: (payload: ItemProperties) => void;
-  unSaveItem: (payload: ItemProperties) => void;
+  deprecatedSavedItems: OrderedMap<string, ItemProperties>;
 }
 
 class ListItem extends React.PureComponent<Props> {
@@ -53,8 +51,34 @@ class ListItem extends React.PureComponent<Props> {
       window.scrollTo({ top: position });
     }
   }
+
+  private renderList = (data: any = {}, err?: any, gun?: GunHelper) => {
+    if (err || !gun) {
+      console.error(err);
+      return null;
+    }
+
+    return (
+      <table>
+        <tbody>
+          {this.props.children.map((e: React.ReactElement<any>, i: number) => (
+            <ItemRow key={i}>
+              <td>{i + 1}.</td>
+              <td onClick={this.saveOrDeleteItem(e.props, data, gun)}>
+                <IoMdBookmark
+                  size={15}
+                  color={data[e.props.id.toString()] ? '#ff6600' : '#828282'}
+                />
+              </td>
+              <td>{e}</td>
+            </ItemRow>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+
   public render() {
-    const { savedItems } = this.props;
     return (
       <Container
         style={{
@@ -67,47 +91,29 @@ class ListItem extends React.PureComponent<Props> {
               Nothing to show here :(
             </div>
             :
-            <table>
-              <tbody>
-                {this.props.children.map((e: React.ReactElement<any>, i: number) => (
-                  <ItemRow key={i}>
-                    <td>{i + 1}.</td>
-                    <td onClick={this.saveOrDeleteItem(e.props)}>
-                      <IoMdBookmark
-                        size={15}
-                        color={savedItems.has(e.props.id.toString()) ? '#ff6600' : '#828282'}
-                      />
-                    </td>
-                    <td>{e}</td>
-                  </ItemRow>
-                ))}
-              </tbody>
-            </table>
+            <GunConnector nodeKey="savedItems" render={this.renderList} />
           }
         </LoadingComponent>
       </Container>
     );
   }
 
-  private saveOrDeleteItem = (item: ItemProperties) => () => {
-    const { savedItems } = this.props;
-    if (savedItems.has(item.id.toString())) {
-      this.props.unSaveItem(item);
+  private saveOrDeleteItem = (item: ItemProperties, savedItems: any, gun: GunHelper) => () => {
+    const id = item.id.toString();
+    const gunId = `savedItems.${id}`;
+
+    if (savedItems[id]) {
+      gun.remove(gunId);
     } else {
-      this.props.saveItem(item);
+      gun.put(gunId, { date: new Date().getTime() });
     }
   }
 }
 
 const mapStateToProps = (state: any) => {
   return {
-    savedItems: state.saved,
+    deprecatedSavedItems: state.saved,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  saveItem: (payload: ItemProperties) => dispatch({ type: Actions.SAVE_ITEM, payload }),
-  unSaveItem: (payload: ItemProperties) => dispatch({ type: Actions.UNSAVE_ITEM, payload })
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListItem);
+export default connect(mapStateToProps)(ListItem);
